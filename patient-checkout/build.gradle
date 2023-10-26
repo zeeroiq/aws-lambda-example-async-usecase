@@ -1,0 +1,29 @@
+plugins {
+    id 'java'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'com.amazonaws:aws-lambda-java-core:1.2.2'
+    implementation 'com.amazonaws:aws-lambda-java-events:3.11.1'
+    implementation 'com.google.code.gson:gson:2.10.1'
+    implementation 'com.amazonaws:aws-java-sdk-s3:1.12.472'
+    implementation 'com.amazonaws:aws-java-sdk-sns:1.12.472'
+
+    compileOnly 'org.projectlombok:lombok:1.18.26'
+    annotationProcessor 'org.projectlombok:lombok:1.18.26'
+
+    implementation 'org.assertj:assertj-core:3.24.2'
+    testImplementation 'org.mockito:mockito-core:5.4.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.10.0'
+}
+
+sourceCompatibility = 17
+targetCompatibility = 17
+
+test {
+    useJUnitPlatform()
+}

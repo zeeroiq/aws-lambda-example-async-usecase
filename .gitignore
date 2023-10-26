@@ -1,3 +1,4 @@
 /.idea/
 /.aws-sam/
 /HelloWorldFunction/.gradle/
+/patient-checkout/.gradle/
