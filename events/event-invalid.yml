@@ -1,0 +1,7 @@
+---
+- firstname: firstname
+  lastname: lastname
+  ssn: 1234567890
+- firstname: secondName
+  lastname: secondLastName
+  ssn: 123456789
