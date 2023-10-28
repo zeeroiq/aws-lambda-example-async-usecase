@@ -41,6 +41,7 @@ public class PatientCheckoutLambda {
         });
         } catch (Exception e) {
             log.error("Error occurred \n", e);
+            throw new RuntimeException("Error while processing S3 event", e);
         }
     }
 
