@@ -29,6 +29,8 @@ Resources:
       Policies:
         - S3ReadPolicy:
             BucketName: !Sub ${AWS::StackName}-${AWS::AccountId}-${AWS::Region}
+        - SNSPublishMessagePolicy:
+            TopicName: !GetAtt PatientCheckoutTopic.TopicName
       Environment:
         Variables:
           PATIENT_CHECKOUT_TOPIC: { "Ref": "PatientCheckoutTopic" }
@@ -36,5 +38,15 @@ Resources:
         S3Event:
           Type: S3
           Properties:
-            Bucket: { "Ref" : "PatientCheckoutBucket" }
+            Bucket: { "Ref": "PatientCheckoutBucket" }
             Events: s3:ObjectCreated:*
+  BillManagementLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: patient-checkout
+      Handler: com.zeero.async.usecase.apis.BillManagementLambda::handler
+      Events:
+        SNSEvent:
+          Type: SNS
+          Properties:
+            Topic: { "Ref": "PatientCheckoutTopic" }
