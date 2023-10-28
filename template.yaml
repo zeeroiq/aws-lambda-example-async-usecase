@@ -19,6 +19,8 @@ Resources:
     Type: AWS::S3::Bucket
     Properties:
       BucketName: !Sub ${AWS::StackName}-${AWS::AccountId}-${AWS::Region}
+  PatientCheckoutTopic:
+    Type: AWS::SNS::Topic
   PatientCheckoutLambda:
     Type: AWS::Serverless::Function
     Properties:
@@ -26,10 +28,10 @@ Resources:
       Handler: com.zeero.async.usecase.apis.PatientCheckoutLambda::handleRequest
       Policies:
         - S3ReadPolicy:
-            BucketName: Fn::Sub ${AWS::StackName}-${AWS::AccountId}-${AWS::Region}
+            BucketName: !Sub ${AWS::StackName}-${AWS::AccountId}-${AWS::Region}
       Environment:
         Variables:
-          PARAM1: VALUE
+          PATIENT_CHECKOUT_TOPIC: { "Ref": "PatientCheckoutTopic" }
       Events:
         S3Event:
           Type: S3
