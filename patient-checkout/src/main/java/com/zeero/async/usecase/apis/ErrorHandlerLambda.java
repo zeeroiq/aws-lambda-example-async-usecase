@@ -1,12 +1,12 @@
 package com.zeero.async.usecase.apis;
 
-import com.amazonaws.services.lambda.runtime.events.SNSEvent;
+import com.amazonaws.services.lambda.runtime.events.SQSEvent;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class ErrorHandlerLambda {
 
-    public void handler(SNSEvent event) {
+    public void handler(SQSEvent event) {
         event
                 .getRecords()
                 .parallelStream()

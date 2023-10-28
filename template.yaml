@@ -16,7 +16,7 @@ Globals:
 
 Resources:
   PatientCheckoutDLQ:
-    Type: AWS::SNS::Topic
+    Type: AWS::SQS::Queue
   PatientCheckoutBucket:
     Type: AWS::S3::Bucket
     Properties:
@@ -29,8 +29,8 @@ Resources:
       CodeUri: patient-checkout
       Handler: com.zeero.async.usecase.apis.PatientCheckoutLambda::handleRequest
       DeadLetterQueue:
-        Type: SNS
-        TargetArn: !Ref PatientCheckoutDLQ
+        Type: SQS
+        TargetArn: !GetAtt PatientCheckoutDLQ.Arn
       Policies:
         - S3ReadPolicy:
             BucketName: !Sub ${AWS::StackName}-${AWS::AccountId}-${AWS::Region}
@@ -61,7 +61,7 @@ Resources:
       CodeUri: patient-checkout
       Handler: com.zeero.async.usecase.apis.ErrorHandlerLambda::handler
       Events:
-        SNSEvent:
-          Type: SNS
+        SQSEvent:
+          Type: SQS
           Properties:
-            Topic: !Ref PatientCheckoutDLQ
+            Queue: !GetAtt PatientCheckoutDLQ.Arn
